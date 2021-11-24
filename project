@@ -1,0 +1,250 @@
+#include <iostream>
+#include <regex>
+
+using namespace std;
+
+#define RESET  "\x1B[0m"
+#define CYAN  "\x1B[36m"
+#define YELLOW  "\x1B[33m"
+#define GREEN  "\x1B[32m"
+#define RED  "\x1B[31m"
+
+enum Act {
+    AutoTranslate,
+    RuToEn,
+    EnToRu,
+    Exit
+};
+
+
+void autoTranslate(string basicString);
+
+void en2ru(string basicString);
+
+void ru2en(string basicString);
+
+void printWords();
+
+int find(string arr[], string seek);
+
+static string enWords[] = {"Home", "C++", "Translate", "Kekw", "Test", "Text", "English", "Russian", "Discord", "Punk",
+                           "Daft", "RAM", "Memories", "Access", "Git", "Field", "Hopes", "Dreamer", "Debug", "Foxy"};
+
+static string ruWords[] = {"Дом", "Плюсы", "Перевести", "Хохотун", "Тест", "Текст", "Английсткий", "Русский", "Дискорд",
+                           "Панк", "Дафт", "Рам", "Воспоминания", "Доступ", "Гит", "Поле", "Надежды", "Мечтающий",
+                           "Дебаг", "Фокси"};
+
+int main() {
+    cout << "Глупый переводчик." << endl;
+    printWords();
+
+    cout << endl << "Выбери действие:\n"
+                    CYAN "[*]" RESET << " 0 - Переводчик автоматический\n"
+                                        CYAN "[*]" RESET << " 1 - RU -> EN\n"
+                                                            CYAN "[*]" RESET << " 2 - EN -> RU\n"
+                                                                                CYAN "[*]" RESET << " 3 - Выход\n"
+                                                                                                    "\n"
+                                                                                                    "Созданно при поддержке головной боли." << endl;
+
+    int act;
+    cin >> act;
+
+    string word;
+    if (act != Exit) {
+        cout << "А теперь я жду слово для работы:" << endl;
+        cin >> word;
+
+    }
+
+    switch (act) {
+        case AutoTranslate:
+            autoTranslate(word);
+            break;
+        case RuToEn:
+            ru2en(word);
+            break;
+        case EnToRu:
+            en2ru(word);
+            break;
+        case Exit:
+        default:
+            cout << "Удачи." << endl;
+            break;
+    }
+
+    return 0;
+}
+
+//Да. я завёл массив чисто для этого метода
+void printWords() {
+    //en:
+    cout << "Доступные слова[en]:" << endl;
+    for (int i = 0; i < 20; ++i) {
+        string &basicString = enWords[i];
+        cout << YELLOW << "[" << i << "] " << RESET << basicString << endl;
+    }
+    //ru
+    cout << endl << "Доступные слова[ru]:" << endl;
+    for (int i = 0; i < 20; ++i) {
+        string &basicString = ruWords[i];
+        cout << YELLOW << "[" << i << "] " << RESET << basicString << endl;
+    }
+}
+
+void autoTranslate(string basicString) {
+    if (std::regex_match(basicString, std::regex("^[A-Za-z]+$")))
+        en2ru(basicString);
+    else
+        ru2en(basicString);
+    //else if (std::regex_match(basicString, std::regex("^[А-Яа-я]+$"))) //Это НЕ работает. c++ не умеет в русский regex? Мне сейчас лень этим заниматься, голова болит.
+    //    ru2en(basicString);
+    //else
+    //    cout << "Я не знаю что ты там выбрал." << endl;
+
+}
+
+void ru2en(string basicString) {
+    int founded = find(ruWords, basicString);
+    //Свичи, конечно, хорошая штука, но проще всего было бы вывести enWords[founded]
+    switch (founded) {
+        case 0:
+            cout << "Home" << endl;
+            break;
+        case 1:
+            cout << "C++" << endl;
+            break;
+        case 2:
+            cout << "Translate" << endl;
+            break;
+        case 3:
+            cout << "Kekw" << endl;
+            break;
+        case 4:
+            cout << "Test" << endl;
+            break;
+        case 5:
+            cout << "Text" << endl;
+            break;
+        case 6:
+            cout << "English" << endl;
+            break;
+        case 7:
+            cout << "Russian" << endl;
+            break;
+        case 8:
+            cout << "Discord" << endl;
+            break;
+        case 9:
+            cout << "Punk" << endl;
+            break;
+        case 10:
+            cout << "Daft" << endl;
+            break;
+        case 11:
+            cout << "RAM" << endl;
+            break;
+        case 12:
+            cout << "Memories" << endl;
+            break;
+        case 13:
+            cout << "Access" << endl;
+            break;
+        case 14:
+            cout << "Git" << endl;
+            break;
+        case 15:
+            cout << "Field" << endl;
+            break;
+        case 16:
+            cout << "Hopes" << endl;
+            break;
+        case 17:
+            cout << "Dreamer" << endl;
+            break;
+        case 18:
+            cout << "Debug" << endl;
+            break;
+        case 19:
+            cout << "Foxy" << endl;
+            break;
+        default:
+            cout << "Неизвестное слово" << endl;
+            break;
+    }
+}
+
+void en2ru(string basicString) {
+    int founded = find(enWords, basicString);
+    switch (founded) {
+        case 0:
+            cout << "Дом" << endl;
+            break;
+        case 1:
+            cout << "Плюсы" << endl;
+            break;
+        case 2:
+            cout << "Перевести" << endl;
+            break;
+        case 3:
+            cout << "Хохотун" << endl;
+            break;
+        case 4:
+            cout << "Тест" << endl;
+            break;
+        case 5:
+            cout << "Текст" << endl;
+            break;
+        case 6:
+            cout << "Английский" << endl;
+            break;
+        case 7:
+            cout << "Русский" << endl;
+            break;
+        case 8:
+            cout << "Дискорд" << endl;
+            break;
+        case 9:
+            cout << "Панк" << endl;
+            break;
+        case 10:
+            cout << "Дафт" << endl;
+            break;
+        case 11:
+            cout << "Рам" << endl;
+            break;
+        case 12:
+            cout << "Воспоминания" << endl;
+            break;
+        case 13:
+            cout << "Доступ" << endl;
+            break;
+        case 14:
+            cout << "Гит" << endl;
+            break;
+        case 15:
+            cout << "Поле" << endl;
+            break;
+        case 16:
+            cout << "Надежды" << endl;
+            break;
+        case 17:
+            cout << "Мечтающий" << endl;
+            break;
+        case 18:
+            cout << "Дебаг" << endl;
+            break;
+        case 19:
+            cout << "Фокси" << endl;
+            break;
+        default:
+            cout << "Неизвестное слово" << endl;
+            break;
+    }
+}
+
+int find(string arr[], string seek) {
+    for (int i = 0; i < 20; ++i) {
+        if (arr[i] == seek) return i;
+    }
+    return -1;
+}
